@@ -7,11 +7,19 @@
     <link rel="icon" href="logo.png">
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #34495e;
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: #e5e5e5;
+            --hover-bg: #f8f9fa;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e5e5e5;
+            --text-secondary: #a0a0a0;
+            --border-color: #333333;
+            --hover-bg: #252525;
         }
         
         * {
@@ -21,321 +29,237 @@
         }
         
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--secondary-color);
-            background-color: var(--light-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
         
         header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 40px 0;
+            padding: 80px 0 60px;
             text-align: center;
+            position: relative;
         }
         
-        .profile-img {
-            width: 150px;
-            height: 150px;
+        .theme-toggle {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: 1px solid var(--border-color);
             border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
-            margin-bottom: 20px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+        
+        .theme-toggle:hover {
+            background-color: var(--hover-bg);
         }
         
         .name {
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
         }
         
         .title {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
         }
         
         nav {
-            background-color: var(--dark-color);
-            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
+            background-color: var(--bg-color);
+            backdrop-filter: blur(10px);
         }
         
         nav ul {
             display: flex;
             justify-content: center;
             list-style: none;
-        }
-        
-        nav li {
-            margin: 0 15px;
+            gap: 32px;
+            padding: 16px 0;
         }
         
         nav a {
-            color: white;
+            color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
         
         nav a:hover {
-            color: var(--accent-color);
+            color: var(--text-color);
         }
         
         section {
-            padding: 60px 0;
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-color);
         }
         
-        section:nth-child(even) {
-            background-color: white;
+        section:last-of-type {
+            border-bottom: none;
         }
         
         .section-title {
-            text-align: center;
+            font-size: 1.8rem;
             margin-bottom: 40px;
-            color: var(--dark-color);
-            font-size: 2rem;
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 3px;
-            background-color: var(--primary-color);
-            margin: 15px auto 0;
-        }
-        
-        .about-content {
-            text-align: center;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
         
         .about-text {
-            flex: 1;
-            min-width: 300px;
-            padding: 20px;
+            max-width: 700px;
+            color: var(--text-secondary);
+            line-height: 1.8;
         }
         
-        /* 新しいスキルのスタイル */
+        .about-text p {
+            margin-bottom: 12px;
+        }
+        
         .skills-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 900px;
-            margin: 0 auto;
+            gap: 12px;
         }
         
         .skill-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 120px;
-            transition: transform 0.3s;
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            transition: all 0.2s;
         }
         
         .skill-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .skill-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        .skill-name {
-            font-weight: 500;
-            text-align: center;
+            background-color: var(--hover-bg);
         }
         
         .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
         
         .project-card {
-            background-color: white;
+            padding: 24px;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            transition: all 0.2s;
         }
         
         .project-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .project-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .project-info {
-            padding: 20px;
+            background-color: var(--hover-bg);
         }
         
         .project-title {
-            color: var(--dark-color);
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 15px;
-        }
-        
-        .tag {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
         
         .experience-item {
-            margin-bottom: 30px;
-            position: relative;
-            padding-left: 30px;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border-color);
         }
         
-        .experience-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 5px;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-        }
-        
-        .experience-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 25px;
-            width: 1px;
-            height: calc(100% - 15px);
-            background-color: var(--primary-color);
+        .experience-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
         
         .experience-date {
-            font-weight: bold;
-            color: var(--primary-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
         }
         
         .experience-title {
-            margin: 5px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
         
         .experience-company {
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        
-        .contact-info {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-        
-        .contact-email {
-            margin: 30px 0;
-            text-align: center;
-            font-size: 1.3rem;
-        }
-        
-        .contact-email a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 10px 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 5px;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-        
-        .contact-email a:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: #2980b9;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
         
         footer {
-            background-color: var(--dark-color);
-            color: white;
+            padding: 60px 0;
             text-align: center;
-            padding: 20px 0;
         }
         
         .social-links {
             display: flex;
             justify-content: center;
+            gap: 20px;
             margin-bottom: 20px;
-            gap: 15px;
         }
         
         .social-icon {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s;
+            color: var(--text-color);
+            font-size: 1.3rem;
+            transition: opacity 0.2s;
         }
         
         .social-icon:hover {
-            color: var(--accent-color);
+            opacity: 0.6;
+        }
+        
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {
-            .about-content {
-                flex-direction: column;
+            .name {
+                font-size: 2rem;
             }
             
             nav ul {
-                flex-wrap: wrap;
+                gap: 20px;
             }
             
-            nav li {
-                margin: 5px 10px;
+            section {
+                padding: 60px 0;
             }
             
-            .skills-container {
-                justify-content: center;
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .theme-toggle {
+                top: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -344,8 +268,11 @@
 <body>
     <header>
         <div class="container">
-            <!-- <img src="/api/placeholder/150/150" alt="プロフィール画像" class="profile-img"> -->
+            <button class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
             <h1 class="name">名もなき大学院生</h1>
+            <p class="title">九州産業大学大学院</p>
         </div>
     </header>
     
@@ -379,34 +306,13 @@
         <div class="container">
             <h2 class="section-title">スキル</h2>
             <div class="skills-container">
-                <div class="skill-item">
-                    <i class="fas fa-server skill-icon"></i>
-                    <span class="skill-name">Linux</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-network-wired skill-icon"></i>
-                    <span class="skill-name">ネットワーク設計</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-digital-ocean skill-icon"></i>
-                    <span class="skill-name">仮想化技術</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-docker skill-icon"></i>
-                    <span class="skill-name">Docker</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-code-branch skill-icon"></i>
-                    <span class="skill-name">Ansible</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-terminal skill-icon"></i>
-                    <span class="skill-name">シェルスクリプト</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-tachometer-alt skill-icon"></i>
-                    <span class="skill-name">パフォーマンス監視</span>
-                </div>
+                <div class="skill-item">Linux</div>
+                <div class="skill-item">ネットワーク設計</div>
+                <div class="skill-item">仮想化技術</div>
+                <div class="skill-item">Docker</div>
+                <div class="skill-item">Ansible</div>
+                <div class="skill-item">シェルスクリプト</div>
+                <div class="skill-item">パフォーマンス監視</div>
             </div>
         </div>
     </section>
@@ -427,7 +333,7 @@
                     <div class="project-info">
                         <h3 class="project-title">JANOG56</h3>
                         <p>JANOG56にてNOCに参加</p>
-                        <p>主にサーバーを担当し、会場にネットワークを提供</p>
+                        <p>サーバーリーダーを担当し、会場にネットワークを提供</p>
                     </div>
                 </div>
                 
@@ -449,8 +355,23 @@
                 
                 <div class="project-card">
                     <div class="project-info">
+                        <h3 class="project-title">CEDEC+KYUSHU2025</h3>
+                        <p>CEDEC+KYUSHU2025にてNOCに参加</p>
+                        <p>主にAPを担当し、会場にネットワークを提供</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-info">
                         <h3 class="project-title">WIDE Camp 2025 Spring</h3>
                         <p>WIDE Camp 2025 SpringにてPC/NETとして参加</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3 class="project-title">WIDE Camp 2025 Autumn</h3>
+                        <p>WIDE Camp 2025 AutumnにてPC/NETとして参加</p>
                     </div>
                 </div>
 
@@ -500,6 +421,44 @@
     </footer>
 
     <script>
+        // テーマ切り替え
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+        
+        // ユーザーのシステム設定を取得
+        const getPreferredTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+        
+        // テーマを適用
+        const setTheme = (theme) => {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        };
+        
+        // 初期テーマを設定
+        setTheme(getPreferredTheme());
+        
+        // トグルボタンのクリックイベント
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+        
+        // システムのテーマ設定変更を監視
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+        
         // スムーズスクロール
         document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
