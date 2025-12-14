@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pikuouji.net</title>
     <link rel="icon" href="logo.png">
+    <script>
+        // テーマフラッシュ防止（ページ読み込み前に適用）
+        (function() {
+            const theme = localStorage.getItem('theme') || 
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <style>
         :root {
             --bg-color: #ffffff;
@@ -26,6 +34,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        
+        *,
+        *::before,
+        *::after {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
         
         body {
@@ -68,6 +82,16 @@
             background-color: var(--hover-bg);
         }
         
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--text-color);
+            outline-offset: 2px;
+        }
+        
+        .theme-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
         .name {
             font-size: 2.5rem;
             font-weight: 600;
@@ -108,6 +132,12 @@
         
         nav a:hover {
             color: var(--text-color);
+        }
+        
+        nav a:focus-visible {
+            outline: 2px solid var(--text-color);
+            outline-offset: 4px;
+            border-radius: 2px;
         }
         
         section {
@@ -235,6 +265,12 @@
             opacity: 0.6;
         }
         
+        .social-icon:focus-visible {
+            outline: 2px solid var(--text-color);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+        
         footer p {
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -269,7 +305,13 @@
     <header>
         <div class="container">
             <button class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">
-                <i class="fas fa-moon" id="themeIcon"></i>
+                <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path id="moonPath" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g id="sunPath" style="display: none;">
+                        <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                        <path d="M12 2v2m0 16v2M4 12H2m20 0h-2m-2.93-7.07l-1.41 1.41M7.76 16.24l-1.41 1.41m12.02 0l-1.41-1.41M7.76 7.76L6.35 6.35" stroke-width="2" stroke-linecap="round"/>
+                    </g>
+                </svg>
             </button>
             <h1 class="name">名もなき大学院生</h1>
             <p class="title">九州産業大学大学院</p>
@@ -414,7 +456,11 @@
     <footer>
         <div class="container">
             <div class="social-links">
-                <a href="https://github.com/pikuouji" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="https://github.com/pikuouji" class="social-icon" aria-label="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                </a>
             </div>
             <p>&copy; 2025 pikuouji. All Rights Reserved.</p>
         </div>
@@ -423,7 +469,8 @@
     <script>
         // テーマ切り替え
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
+        const moonPath = document.getElementById('moonPath');
+        const sunPath = document.getElementById('sunPath');
         const html = document.documentElement;
         
         // ユーザーのシステム設定を取得
@@ -439,7 +486,14 @@
         const setTheme = (theme) => {
             html.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
-            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            
+            if (theme === 'dark') {
+                moonPath.style.display = 'none';
+                sunPath.style.display = 'block';
+            } else {
+                moonPath.style.display = 'block';
+                sunPath.style.display = 'none';
+            }
         };
         
         // 初期テーマを設定
